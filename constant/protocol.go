@@ -7,6 +7,7 @@ const (
 	ProtocolDNS        = "dns"
 	ProtocolSTUN       = "stun"
 	ProtocolBitTorrent = "bittorrent"
+	ProtocolUdpTracker = "udp-tracker"
 	ProtocolDTLS       = "dtls"
 	ProtocolSSH        = "ssh"
 	ProtocolRDP        = "rdp"

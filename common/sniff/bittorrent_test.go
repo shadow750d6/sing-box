@@ -89,7 +89,7 @@ func TestSniffUDPTracker(t *testing.T) {
 		var metadata adapter.InboundContext
 		err = sniff.UDPTracker(context.TODO(), &metadata, pkt)
 		require.NoError(t, err)
-		require.Equal(t, C.ProtocolBitTorrent, metadata.Protocol)
+		require.Equal(t, C.ProtocolUdpTracker, metadata.Protocol)
 	}
 }
 

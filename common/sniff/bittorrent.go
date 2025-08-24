@@ -102,6 +102,6 @@ func UDPTracker(_ context.Context, metadata *adapter.InboundContext, packet []by
 	if binary.BigEndian.Uint32(packet[8:12]) != trackerConnectFlag {
 		return os.ErrInvalid
 	}
-	metadata.Protocol = C.ProtocolBitTorrent
+	metadata.Protocol = C.ProtocolUdpTracker
 	return nil
 }
