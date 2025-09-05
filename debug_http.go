@@ -1,8 +1,10 @@
 package box
 
 import (
+	"net"
 	"net/http"
 	"net/http/pprof"
+	"os"
 	"runtime"
 	"runtime/debug"
 	"strings"
@@ -68,7 +70,22 @@ func applyDebugListenOption(options option.DebugOptions) {
 		Handler: r,
 	}
 	go func() {
-		err := debugHTTPServer.ListenAndServe()
+		var err error
+		if strings.HasPrefix(options.Listen, "/") {
+			if err = os.Remove(options.Listen); err != nil && !os.IsNotExist(err) {
+				log.Error(E.Cause(err, "remove existing debug unix socket"))
+				return
+			}
+			var listener net.Listener
+			listener, err = net.Listen("unix", options.Listen)
+			if err != nil {
+				log.Error(E.Cause(err, "listen on debug unix socket"))
+				return
+			}
+			err = debugHTTPServer.Serve(listener)
+		} else {
+			err = debugHTTPServer.ListenAndServe()
+		}
 		if err != nil && !E.IsClosed(err) {
 			log.Error(E.Cause(err, "serve debug HTTP server"))
 		}
