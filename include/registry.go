@@ -3,7 +3,7 @@ package include
 import (
 	"context"
 
-	"github.com/sagernet/sing-box"
+	box "github.com/sagernet/sing-box"
 	"github.com/sagernet/sing-box/adapter"
 	"github.com/sagernet/sing-box/adapter/endpoint"
 	"github.com/sagernet/sing-box/adapter/inbound"
@@ -13,6 +13,7 @@ import (
 	"github.com/sagernet/sing-box/dns"
 	"github.com/sagernet/sing-box/dns/transport"
 	"github.com/sagernet/sing-box/dns/transport/fakeip"
+	"github.com/sagernet/sing-box/dns/transport/fallback"
 	"github.com/sagernet/sing-box/dns/transport/hosts"
 	"github.com/sagernet/sing-box/dns/transport/local"
 	"github.com/sagernet/sing-box/log"
@@ -120,6 +121,7 @@ func DNSTransportRegistry() *dns.TransportRegistry {
 	local.RegisterTransport(registry)
 	fakeip.RegisterTransport(registry)
 	resolved.RegisterTransport(registry)
+	fallback.RegisterTransport(registry)
 
 	registerQUICTransports(registry)
 	registerDHCPTransport(registry)

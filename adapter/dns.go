@@ -72,6 +72,11 @@ type DNSTransport interface {
 	Exchange(ctx context.Context, message *dns.Msg) (*dns.Msg, error)
 }
 
+type WrappingDNSTransport interface {
+	DNSTransport
+	ReceiveDepedencies(deps []DNSTransport) error
+}
+
 type LegacyDNSTransport interface {
 	LegacyStrategy() C.DomainStrategy
 	LegacyClientSubnet() netip.Prefix

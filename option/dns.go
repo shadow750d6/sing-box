@@ -407,3 +407,10 @@ type DHCPDNSServerOptions struct {
 	LocalDNSServerOptions
 	Interface string `json:"interface,omitempty"`
 }
+
+type FallbackDNSServerOptions struct {
+	LocalDNSServerOptions
+	Servers         badoption.Listable[string] `json:"servers,omitempty"`
+	FallbackTimeout badoption.Duration         `json:"fallback_timeout,omitempty"`
+	ReenableTimeout badoption.Duration         `json:"reenable_timeout,omitempty"`
+}

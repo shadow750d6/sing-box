@@ -104,6 +104,14 @@ func (m *TransportManager) startTransports(transports []adapter.DNSTransport) er
 					continue startOne
 				}
 			}
+			if wrapping, isWrapping := transportToStart.(adapter.WrappingDNSTransport); isWrapping {
+				err := wrapping.ReceiveDepedencies(common.Map(dependencies, func(it string) adapter.DNSTransport {
+					return m.transportByTag[it]
+				}))
+				if err != nil {
+					return E.Cause(err, "receive dependencies for dns/", transportToStart.Type(), "[", transportTag, "]")
+				}
+			}
 			started[transportTag] = true
 			canContinue = true
 			if starter, isStarter := transportToStart.(adapter.Lifecycle); isStarter {
